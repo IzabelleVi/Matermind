@@ -1,13 +1,15 @@
-
+#Import nodige Modules
 from itertools import product
 import random
 from collections import Counter
 import sys
 
+#Mogelijke opties in kleuren
 
-ingame = False
 kleuren = ['A', 'B', 'C', 'D', 'E', 'F']
 
+#Status van gestart spel ja/nee
+ingame = False
 
 def game_menu():
     #Geeft een klein menu waarin de speler aan kan geven of hij speler 1 of speler 	2 wilt zijn.
@@ -25,7 +27,7 @@ def game_menu():
             print("De computer zal een code opstellen, probeer deze te raden.")
             ingame = True
             return (check())
-
+        #Waarschuwing als de speler niet 'speler 1' of 'speler 2' in typt
         else:
             print("Kies tussen speler 1, of speler 2.")
             continue
@@ -34,7 +36,8 @@ def game_menu():
 
 #Speler is speler 1:
 def kies_code():
-    #"Via een input kan de speler een code invoeren. Deze moet 4 karakters lang zijn en mag alleen bestaan uit A,B,C,D,E,F. Als dit niet zo is zal de computer 	foutmelding geven en moet je een andere geheime code kiezen."
+    #"Via een input kan de speler een code invoeren.
+    # Deze moet 4 karakters lang zijn en mag alleen bestaan uit A,B,C,D,E,F.
 
     while True:
         spelercode = input("Kies een code, 4 karakters lang. Je mag dubbelen gebruiken, kiezen uit A, B, C, D, E, F ").upper()
@@ -45,10 +48,13 @@ def kies_code():
 
 
 def computer_algoritme(code):
-    "Volgens het algorithme dat word gebruikt in het artikel uit de universiteit van Groningen, voert de computer een gok uit op basis van de feedback_speler."
+    "Volgens het algorithme dat word gebruikt in het artikel uit de universiteit van Groningen,"
+    "voert de computer een gok uit op basis van de feedback_speler."
 
+    #Lijst met alle mogelijke  opties
     combinatie_list = [''.join(i) for i in product('ABCDEF', repeat=4)]
 
+    #feedback vergelijken aan de overige opties in de lijst, en lengte van de lijst bepalen
     gok = 'ABAB'
     while True:
         feedback = feedback_speler(gok, code)
@@ -64,9 +70,7 @@ def computer_algoritme(code):
             print (combinatie_list)
 
 
-
-
-
+#Feedback op de laatste gok van de computer
 
 def feedback_speler(gok, code):
     correct = sum((Counter(code) & Counter(gok)).values())
@@ -75,8 +79,9 @@ def feedback_speler(gok, code):
 
 
 #Speler is speler 2:
+#Computer genereert een random code
 def maak_code():
-    "Maak een code met 4 cijfers kiezend uit 1,2,3,4,5,6 door middel van random"
+    "Maak een code met 4 letters kiezend uit A,B,C,D,E,F door middel van random"
     "code = "
 
     computercode = []
@@ -84,9 +89,9 @@ def maak_code():
         computercode.append(kleuren[random.randint(0, 5)])
     return computercode
 
-
+#Speler dient een gok in op de code van de computer.
 def speler_gok():
-    "Vraag input en geef deze een naam, bijv “gok”. Als deze iets anders is dan 	een 4 karakter lange combinatie van 1,2,3,4,5,6 geef een foutmelding en vraag een nieuwe input."
+    "Vraag input en geef deze een naam, bijv “gok”. Als deze iets anders is dan een 4 karakter lange combinatie van A,B,C,D,E,F geef een foutmelding en vraag een nieuwe input."
     print("Gok een code van 4 karakters lang")
     global spelergok
     spelergok = input("")
@@ -101,10 +106,9 @@ def speler_gok():
             print("Je kun alleen kiezen uit A, B, C, D, E, F.")
             spelergok = ''
 
-
-
     return spelergok
 
+#De computer vergelijkt de gok van de speler met de code van de computer
 def check():
     "In deze functie vergelijkt de computer de gok met de de gegenereerde code. 	Als deze overeenkomen, feliciteert de computer de speler."
     "break"
@@ -115,6 +119,7 @@ def check():
     else:
         feedback_computer()
 
+#De computer geeft feedback op de gok van de speler, en laat ze opnieuw gokken.
 def feedback_computer():
     "De computer geeft hier feedback op de gokken van de speler, ik ga hiervoor	de techniek gebruiken die ook in het artikel van de universiteit van Groningen 	werd gebruikt."
     "Wanneer een getal wel goed is maar op de verkeerde plek returned hij een [0], wanneer er een getal goed staat en de juiste is returned hij een [X]"
